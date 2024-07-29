@@ -8,9 +8,9 @@ dataSources:
     name: Factory
     network: sei
     source:
-      address: "0xF916E67B277B973FB59C807AAC1eec49E7A91c6f"
+      address: "0x011D2261129Ec74eE642eb5673429092d48feBf2"
       abi: DragonswapStakerFactory
-      startBlock: 92438866
+      startBlock: 92442906
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
