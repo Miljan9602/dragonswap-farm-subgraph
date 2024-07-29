@@ -11,7 +11,7 @@
     "test": "graph test",
 
 
-    "goldsky-mainnet" : "goldsky subgraph deploy dragonswap-farm-mainnet/1.0.0 --path ."
+    "goldsky-staging" : "goldsky subgraph deploy dragonswap-farm-staging/1.0.0 --path ."
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.78.0",
