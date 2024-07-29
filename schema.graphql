@@ -1,6 +1,84 @@
-type ExampleEntity @entity {
-  id: Bytes!
-  count: BigInt!
-  src: Bytes! # address
-  guy: Bytes! # address
+type UserFarmBalance @entity{
+  id: ID!
+
+  user: Bytes!
+  farmAddress: Bytes!
+  totalDeposit: BigInt!
+  totalWithdraws: BigInt!
+
+  totalNativeTokenClaim: BigInt!
+  totalBoosterTokenClaim: BigInt!
+  balance: BigInt!
+}
+
+type Withdraw @entity {
+  id: ID!
+
+  user: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+
+  amount: BigInt!
+  farmAddress: Bytes!
+}
+
+type Payout @entity {
+  id: ID!
+
+  user: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  farmAddress: Bytes!
+
+  nativeTokenClaim: BigInt!
+  boosterTokenClaim: BigInt!
+}
+
+type Deposit @entity {
+  id: ID!
+
+  user: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  txHash: Bytes!
+  farmAddress: Bytes!
+
+  amount: BigInt!
+}
+
+type Farm @entity{
+  # factory address
+  id: ID!
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+  createdTxHash: Bytes!
+}
+
+type FarmStat @entity {
+  id: ID!
+
+  totalDeposit: BigInt!
+  totalWithdraws: BigInt!
+  totalNativeTokenClaim: BigInt!
+  totalBoosterTokenClaim: BigInt!
+  balance: BigInt!
+}
+
+type BoostedFarm @entity{
+  # factory address
+  id: ID!
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+  createdTxHash: Bytes!
+}
+
+type FarmFactory @entity {
+  # factory address
+  id: ID!
+
+  # pair info
+  classicFarmCount: Int!
+  boostedFarmCount: Int!
 }

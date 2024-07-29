@@ -8,7 +8,10 @@
     "create-local": "graph create --node http://localhost:8020/ dragonswap-farm-factory-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ dragonswap-farm-factory-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 dragonswap-farm-factory-subgraph",
-    "test": "graph test"
+    "test": "graph test",
+
+
+    "goldsky-mainnet" : "goldsky subgraph deploy dragonswap-farm-mainnet/1.0.0 --path ."
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.78.0",

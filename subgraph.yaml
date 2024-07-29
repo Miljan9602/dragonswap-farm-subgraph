@@ -4,32 +4,86 @@ indexerHints:
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: WETH9
-    network: mainnet
+  - kind: ethereum/contract
+    name: Factory
+    network: sei
     source:
-      address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
-      abi: WETH9
-      startBlock: 4719568
+      address: "0x34975246B5a3c8e9E1C19BF9B6a6088b741d4E2D"
+      abi: DragonswapStakerFactory
+      startBlock: 90093741
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - Transfer
-        - Deposit
-        - Withdrawal
+        - Farm
+        - BoostedFarm
       abis:
-        - name: WETH9
-          file: ./abis/WETH9.json
+        - name: DragonswapStaker
+          file: ./abis/DragonswapStaker.json
+        - name: DragonswapStakerBoosted
+          file: ./abis/DragonswapStakerBoosted.json
+        - name: DragonswapStakerFactory
+          file: ./abis/DragonswapStakerFactory.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,uint256)
-          handler: handleApproval
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-        - event: Deposit(indexed address,uint256)
+        - event: Deployed(indexed address,indexed uint8,indexed address,address,uint256,uint256)
+          handler: handleNewFarm
+      file: ./src/mappings/factory.ts
+templates:
+  - kind: ethereum/contract
+    name: Farm
+    network: sei
+    source:
+      abi: DragonswapStaker
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/farm.ts
+      entities:
+        - Farm
+      abis:
+        - name: DragonswapStaker
+          file: ./abis/DragonswapStaker.json
+        - name: Factory
+          file: ./abis/DragonswapStakerFactory.json
+      eventHandlers:
+        - event: Deposit(indexed address,indexed uint256,uint256)
           handler: handleDeposit
-        - event: Withdrawal(indexed address,uint256)
-          handler: handleWithdrawal
-      file: ./src/weth-9.ts
+        - event: Fund(indexed address,uint256)
+          handler: handleFund
+        - event: Payout(indexed address,uint256)
+          handler: handlePayout
+        - event: Withdraw(indexed address,indexed uint256,uint256)
+          handler: handleWithdraw
+        - event: EmergencyWithdraw(indexed address,indexed uint256,uint256)
+          handler: handleEmergencyWithdraw
+  - kind: ethereum/contract
+    name: BoostedFarm
+    network: sei
+    source:
+      abi: DragonswapStakerBoosted
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/boostedFarm.ts
+      entities:
+        - BoostedFarm
+      abis:
+        - name: DragonswapStakerBoosted
+          file: ./abis/DragonswapStakerBoosted.json
+        - name: Factory
+          file: ./abis/DragonswapStakerFactory.json
+      eventHandlers:
+        - event: Deposit(indexed address,indexed uint256,uint256)
+          handler: handleDeposit
+        - event: Fund(indexed address,uint256,uint256)
+          handler: handleFund
+        - event: Payout(indexed address,uint256,uint256)
+          handler: handlePayout
+        - event: Withdraw(indexed address,indexed uint256,uint256)
+          handler: handleWithdraw
+        - event: EmergencyWithdraw(indexed address,indexed uint256,uint256)
+          handler: handleEmergencyWithdraw
+
